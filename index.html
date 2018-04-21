@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta property="og:title" content="Darwin's Knight">
+	<meta property="og:image" itemprop="image" content="http://www.darwinsknight.com/metaimg.PNG">
+	<meta property="og:description" content="Darwinian approach to solve knight's tour problem.">
+	<meta property="og:url" content="http://www.darwinsknight.com">
+	<title>Darwin's Knight</title>
+	<link rel="icon" type="image/png" href="darwin.png">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_orange-red.min.css" />
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Overpass+Mono" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://use.fontawesome.com/838681d79a.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+	<script src="intro.js"></script>
+	<link href="introjs.css" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'Bungee', cursive;
+			background: #FDFDFD;
+			overflow-x: hidden;
+		}
+		img{
+			cursor: pointer;
+		}
+		#mainBoard .chess-box {
+			font-size: 35px;
+			border: 4px solid #5f5f5f;
+			text-align: center;
+			background: #f9d464;
+
+		}
+		#mainBoard .left-box {
+			border-left: 8px solid #5f5f5f !important;
+		}
+		#mainBoard .right-box {
+			border-right: 8px solid #5f5f5f !important;
+		}
+		#mainBoard .top-box {
+			border-top: 4px solid #5f5f5f;
+		}
+		#mainBoard .bottom-box {
+			border-bottom: 4px solid #5f5f5f;
+		}
+		#nextGen .chess-box {
+			font-size: 14px;
+			text-align: center;
+			border: 1px solid #5f5f5f;
+			background: #f9d464;
+			height: 20px;
+			width: 20px;
+		}
+		#nextGen .left-box {
+			border-left: 2px solid #000 !important;
+		}
+		#nextGen .right-box {
+			border-right: 2px solid #000 !important;
+		}
+		#nextGen .top-box {
+			border-top: 1px solid #000;
+		}
+		#nextGen .bottom-box {
+			border-bottom: 1px solid #000;
+		}
+		#nextGen .mdl-badge {
+			width: 0px !important;
+			height: 0px !important;
+		}
+		#container {
+		   min-height:100%;
+		   position:relative;
+		}
+		#footer {
+		   position:absolute;
+		   bottom:0;
+		   width:100%;
+		   height:60px;
+		   background:#6cf;
+		}
+
+		.odd-box {
+			background: #f8f3b0 !important;
+		}
+		.introjs-tooltiptext {
+			font-family: 'Roboto', sans-serif !important;
+		}
+		.refresh{
+			background: #fff56c;
+			color: #fff56c;
+			border-radius: 50%;
+			padding: 7px;
+			cursor: pointer;
+			box-shadow: 2px 2px 0px 1px #fcc52f;
+		}
+		.refresh:hover {
+			color: #fff56c;
+			box-shadow: 2px 2px 0px 0px #fcc52f;
+		}
+		.refresh:active {
+			color: #fff56c;
+			box-shadow: 1px 1px 0px 1px #fcc52f
+		}
+		.refresh-red{
+			background: #e66969;
+			color: #e66969;
+			border-radius: 50%;
+			padding: 7px;
+			cursor: pointer;
+			box-shadow: 2px 2px 0px 1px #bd4147;
+		}
+		.refresh-red:hover {
+			color: #e66969;
+			box-shadow: 2px 2px 0px 0px #bd4147;
+		}
+		.refresh-red:active {
+			color: #e66969;
+			box-shadow: 1px 1px 0px 1px #bd4147
+		}
+		.refresh-green{
+			background: #82d285;
+			color: #82d285;
+			border-radius: 50%;
+			padding: 7px;
+			cursor: pointer;
+			box-shadow: 2px 2px 0px 1px #4caf50;
+		}
+		.refresh-green:hover {
+			color: #82d285;
+			box-shadow: 2px 2px 0px 0px #4caf50;
+		}
+		.refresh-green:active {
+			color: #82d285;
+			box-shadow: 1px 1px 0px 1px #4caf50
+		}
+		.button {
+			box-shadow: 3px 2px 0px 1px #fcc52f;
+		}
+		.button:hover{
+			box-shadow: 2px 1px 0px 1px #fcc52f;
+		}
+		.button:active{
+			/*border: 1px solid #fcc52f;*/
+			outline:none !important;
+			box-shadow: 1px 1px 1px 1px #fcc52f;
+		}
+		.fa-check{
+			color: #fff !important;
+			border-radius: 50%;
+			background: #82d285 !important;
+			padding: 2px;
+			box-shadow: 2px 2px 0px 1px #4caf50;
+		}
+		.fa-check:hover{
+			box-shadow: 1px 1px 0px 1px #4caf50;
+		}
+		.fa-check:active{
+			box-shadow: 1px 1px 1px 1px #4caf50;
+		}
+		#darwinImg:hover {
+			box-shadow: 2px 2px 10px 2px #000;
+			border-radius: 50%;
+			padding: 10px;
+			margin-right: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row" style="margin-top:3px;">
+			<div class="col-sm">
+				<h1 data-step="1" data-intro="Hi, I'm Darwin's Knight" class="display-4" style="text-align: center;"><span style="color:#bd4147;text-decoration: underline;"><img id="darwinImg" data-step="6" data-intro="Or sit back, relax and watch me perform all these steps for you just by clicking me!<br><br>PS: You can use this as a toggle" onclick="toggleAutomaticRun();" src="darwin.png" width="96" height="106" >Darwin's</span> <span style="text-decoration: underline;">Knight</span></h1>
+			</div>
+		</div>
+		<div id="mainBoard" data-step="9" data-intro="Alright! let's get started">
+			<div style="box-shadow: 3px 3px 10px 3px #2d2d2d;margin-bottom: 9px;" data-step="2" data-intro="I roam about this place, help me conquer all the cells at a stretch">
+		  		<div class="row top-box">
+		  			<div data-placed="0" onclick="moveKnight(this,'00');" class="col-sm chess-box even-box left-box"></div>
+		  			<div data-placed="0" onclick="moveKnight(this,'01');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'02');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'03');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'04');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'05');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'06');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'07');" class="col-sm chess-box odd-box right-box">&nbsp;</div>
+		  		</div>
+		  		<div class="row">
+		  			<div data-placed="0" onclick="moveKnight(this,'10');" class="col-sm chess-box odd-box left-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'11');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'12');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'13');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'14');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'15');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'16');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'17');" class="col-sm chess-box even-box right-box">&nbsp;</div>
+		  		</div>
+		  		<div class="row">
+		  			<div data-placed="0" onclick="moveKnight(this,'20');" class="col-sm chess-box even-box left-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'21');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'22');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'23');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'24');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'25');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'26');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'27');" class="col-sm chess-box odd-box right-box">&nbsp;</div>
+		  		</div>
+		  		<div class="row bottom-box">
+		  			<div data-placed="0" onclick="moveKnight(this,'30');" class="col-sm chess-box odd-box left-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'31');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'32');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'33');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'34');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'35');" class="col-sm chess-box even-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'36');" class="col-sm chess-box odd-box">&nbsp;</div>
+		  			<div data-placed="0" onclick="moveKnight(this,'37');" class="col-sm chess-box even-box right-box">&nbsp;</div>
+		  		</div>
+	  		</div>
+	  		<input id="knightsPosition" value="-1" type="hidden">
+  			<input id="currentMoveNumber" value="1" type="hidden">
+  			<input id="knightsPath" value="" type="hidden">
+  			<div class="row" style="text-align: center;margin-top:5px;">
+  				<div class="col-sm"><h2><i data-step="8" data-intro="Click to reset the board, turns green if we conquer all and turns red if we lose, yellow represents incomplete path" id="gameState" class="fa fa-meh-o refresh" onclick="resetBoard();resetChildBoards(0);resetChildBoards(1);resetChildBoards(2);resetChildBoards(3);resetChildPaths();" aria-hidden="true"></i> CONQUERED: <span id="conquered">0</span> / 32</h2></div>
+  			</div>
+  			<div class="row" style="text-align: center;margin-top:5px;">
+  				<div class="col-sm" data-step="3" data-intro="You can use this to generate new solutions based on parent path which might hopefully help us realize the goal"><div onclick="drawNextGeneration();" class="btn btn-default button" style="background:#fff56c;text-align:center;color:#000;padding:5px;font-size: 24px;cursor: pointer;" id="nextGenBtn">NEXT GENERATION</div>
+  				</div>
+	  		</div>
+	  	</div>
+	  	<div style="margin-bottom: 15px"></div>
+	  	<div id="nextGen" data-step="4" data-intro="Displays solutions generated based on parent path, artificial selection for best conquest is made every generation">
+	  		<div class="row">
+	  			<div class="col-sm" id="chessBox0">
+	  				<div class="row top-box">
+			  			<div class="col-sm chess-box even-box left-box"></div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col-sm chess-box odd-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col-sm chess-box even-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row bottom-box">
+			  			<div class="col-sm chess-box odd-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row" style="text-align: center;margin-top:10px;">
+		  				<div class="col-sm"><h5><span data-step="5" data-intro="Click to make this solution a parent path for next generation" style="color:#21b384;cursor: pointer;" onclick="useSoln(0)"><i class="fa fa-check" aria-hidden="true"></i></span> CONQUERED: <span id="conquered0">0</span> / 32</h5></div>
+		  			</div>
+	  			</div>
+	  			<div class="col-sm" id="chessBox1">
+	  				<div class="row top-box">
+			  			<div class="col-sm chess-box even-box left-box"></div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col-sm chess-box odd-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col-sm chess-box even-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row bottom-box">
+			  			<div class="col-sm chess-box odd-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row" style="text-align: center;margin-top:10px;">
+		  				<div class="col-sm"><h5><span style="color:#21b384;cursor: pointer;" onclick="useSoln(1)"><i class="fa fa-check" aria-hidden="true"></i></span> CONQUERED: <span id="conquered1">0</span> / 32</h5></div>
+		  			</div>
+	  			</div>
+	  			<div class="col-sm" id="chessBox2">
+	  				<div class="row top-box">
+			  			<div class="col-sm chess-box even-box left-box"></div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col-sm chess-box odd-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col-sm chess-box even-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row bottom-box">
+			  			<div class="col-sm chess-box odd-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row" style="text-align: center;margin-top:10px;">
+		  				<div class="col-sm"><h5><span style="color:#21b384;cursor: pointer;" onclick="useSoln(2)"><i class="fa fa-check" aria-hidden="true"></i></span> CONQUERED: <span id="conquered2">0</span> / 32</h5></div>
+		  			</div>
+	  			</div>
+	  			<div class="col-sm" id="chessBox3">
+	  				<div class="row top-box">
+			  			<div class="col-sm chess-box even-box left-box"></div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col-sm chess-box odd-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col-sm chess-box even-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row bottom-box">
+			  			<div class="col-sm chess-box odd-box left-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box">&nbsp;</div>
+			  			<div class="col-sm chess-box odd-box">&nbsp;</div>
+			  			<div class="col-sm chess-box even-box right-box">&nbsp;</div>
+			  		</div>
+			  		<div class="row" style="text-align: center;margin-top:10px;">
+		  				<div class="col-sm"><h5><span style="color:#21b384;cursor: pointer;" onclick="useSoln(3)"><i class="fa fa-check" aria-hidden="true"></i></span> CONQUERED: <span id="conquered3">0</span> / 32</h5></div>
+		  			</div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	<br><br><br><br><br><br>
+	  	<br><br><br><br><br><br>
+	  	<br><br><br><br><br><br>
+	  	<br><br><br><br><br><br>
+	  	<br><br><br><br><br><br>
+	</div>
+	<div id="container">
+		<div id="footer" data-step="7" data-intro="Take note">
+			<div style="background: #F4F1BB;padding: 10px;width:100%;border-top: 3px solid #464F51;">
+		  		<div class="row">
+		  			<div class="col-sm" style="text-align: center;color: #3C1642;font-size:1.3em;font-family: 'Overpass Mono', monospace;">Copyright © 2018 SRIRAM G N <br> Verbatim copying and redistribution of this entire page are permitted provided this notice is preserved.</div>
+		  		</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+<script>
+	window.started = 0;
+	window.autoTimer = null;
+	window.darwinBgColor = "0F8B8D";
+	function getLegalMoves(knightsPosition){
+		var posX = parseInt(knightsPosition[0]);
+		var posY = parseInt(knightsPosition[1]);
+		var legalMoves = [
+			(posX+1).toString()+(posY+2).toString(),
+			(posX+1).toString()+(posY-2).toString(),
+			(posX+2).toString()+(posY+1).toString(),
+			(posX+2).toString()+(posY-1).toString(),
+			(posX-1).toString()+(posY+2).toString(),
+			(posX-1).toString()+(posY-2).toString(),
+			(posX-2).toString()+(posY+1).toString(),
+			(posX-2).toString()+(posY-1).toString(),
+		];
+		var possibleMoves = [];
+		mainBoard = document.getElementById('mainBoard');
+		var chessBoxes = mainBoard.getElementsByClassName("chess-box");
+		for (var i = legalMoves.length - 1; i >= 0; i--) {
+			xPos = parseInt(legalMoves[i][0]);
+			yPos = parseInt(legalMoves[i][1]);
+			if((xPos>=0 && xPos<=3) && (yPos>=0 && yPos<=7)){
+				if ($(chessBoxes[((8*xPos)+yPos)]).data('placed')=="0") {
+					possibleMoves.push(legalMoves[i]);
+				}
+			}
+		}
+		return possibleMoves;
+	}
+	function hasWon() {
+		var chessBoxes = document.getElementById("mainBoard").getElementsByClassName("chess-box");
+		for (var i = chessBoxes.length - 1; i >= 0; i--) {
+			if($(chessBoxes[i]).data('placed')!=1){
+				return false;
+			}
+		}
+		return true;
+	}
+	function moveKnight(e, k){
+		var knightsPosition = document.getElementById("knightsPosition").value;
+		var moveNumber = document.getElementById("currentMoveNumber").value;
+		if (knightsPosition=='-1') {
+			$(e).data('placed', 1);
+			$(e).html('<span style="color:#000;"><i class="fa fa-paw mdl-badge mdl-badge--overlap" data-badge="'+moveNumber+'" aria-hidden="true"></i></span>');
+			document.getElementById("knightsPosition").value = k;
+			document.getElementById("currentMoveNumber").value = (parseInt(moveNumber)+1).toString();
+			$("#conquered").html(moveNumber);
+			document.getElementById("knightsPath").value = document.getElementById("knightsPath").value+","+k;
+		}
+		else{
+			var possibleMoves = getLegalMoves(knightsPosition);
+			mainBoard = document.getElementById('mainBoard');
+			var chessBoxes = mainBoard.getElementsByClassName("chess-box");
+			var isMoveValid = false;
+			for (var i = possibleMoves.length - 1; i >= 0; i--) {
+				if(e==chessBoxes[(parseInt(possibleMoves[i][0])*8+parseInt(possibleMoves[i][1]))]){
+					isMoveValid = true;
+					$(e).data('placed', 1);
+					$(e).html('<span style="color:#000;"><i class="fa fa-paw mdl-badge mdl-badge--overlap" data-badge="'+moveNumber+'" aria-hidden="true"></i></span>');
+					document.getElementById("knightsPosition").value = k;
+					document.getElementById("currentMoveNumber").value = (parseInt(moveNumber)+1).toString();
+					$("#conquered").html(moveNumber);
+					document.getElementById("knightsPath").value = document.getElementById("knightsPath").value+","+k;
+					var newMoves = getLegalMoves(k);
+					if(newMoves.length==0){
+						if(!hasWon()){
+							$("#gameState").removeClass("fa fa-meh-o refresh");
+							$("#gameState").addClass("fa fa-frown-o refresh-red");
+						}
+						else{
+							$("#gameState").removeClass("fa fa-meh-o refresh");
+							$("#gameState").addClass("fa fa-smile-o refresh-green");
+						}
+					}
+					break;
+				}
+			}
+			if (!isMoveValid) {
+				var oldHtml = $(e).html();
+				$(e).html('<span style="color:#bd4147;"><i class="fa fa-times-circle" aria-hidden="true"></i></span>');
+				setTimeout(function(){
+					$(e).html(oldHtml);
+				}, 500);
+			}
+		}
+	}
+	function isPathComplete() {
+		var knightsPosition = document.getElementById("knightsPosition").value;
+		var newMoves = getLegalMoves(knightsPosition);
+		if(newMoves.length==0){
+			return true;
+		}
+		return false;
+	}
+	function resetBoard() {
+		var chessBoxes = document.getElementById('mainBoard').getElementsByClassName('chess-box');
+		for (var i = 0; i < chessBoxes.length; i++) {
+			$(chessBoxes[i]).data('placed','0');
+			$(chessBoxes[i]).html('&nbsp;');
+		}
+		$("#gameState").removeClass("fa fa-frown-o refresh-red");
+		$("#gameState").removeClass("fa fa-smile-o refresh-green");
+		$("#gameState").addClass("fa fa-meh-o refresh");
+		document.getElementById("knightsPosition").value = "-1";
+		document.getElementById("currentMoveNumber").value = "1";
+		document.getElementById("conquered").innerHTML = "0";
+		document.getElementById("knightsPath").value="";
+	}
+	function resetChildBoards(num) {
+		var chessBoxes = document.getElementById('chessBox'+num.toString()).getElementsByClassName('chess-box');
+		for (var i = 0; i < chessBoxes.length; i++) {
+			$(chessBoxes[i]).html('&nbsp;');
+		}
+		document.getElementById("conquered"+num.toString()).innerHTML = "0";
+	}
+	function resetChildPaths(){
+		window.cchildPaths = undefined;
+	}
+	function breedNewSolution(){
+		parentPath = document.getElementById("knightsPath").value;
+		parentPath = parentPath.split(',');
+		parentPath.shift();
+		childPath = [];
+		resetBoard();
+		if((Math.floor(Math.random() * (100 - 1 + 1)) + 1)<=5){
+			var posX = (Math.floor(Math.random() * (3 - 0 + 1)) + 0);
+			var posY = (Math.floor(Math.random() * (7 - 0 + 1)) + 0);
+			n = posX*8 + posY;
+			k = posX.toString() + posY.toString();
+			e = document.getElementById('mainBoard').getElementsByClassName('chess-box')[n]
+			moveKnight(e, k);
+			childPath.push(k);
+		}
+		else{
+			k = parentPath[(Math.floor(Math.random() * (parentPath.length - 1 - 0 + 1)) + 0)];
+			n = parseInt(k[0])*8+parseInt(k[1]);
+			e = document.getElementById('mainBoard').getElementsByClassName('chess-box')[n]
+			moveKnight(e, k);
+			childPath.push(k)
+		}
+		while(!isPathComplete()){
+			knightsPosition = document.getElementById("knightsPosition").value;
+			possibleMoves = getLegalMoves(knightsPosition);
+			if((Math.floor(Math.random() * (100 - 1 + 1)) + 1)<=5){
+				if (possibleMoves.length) {
+					k = possibleMoves[(Math.floor(Math.random() * (possibleMoves.length - 1 - 0 + 1)) + 0)];
+					n = parseInt(k[0])*8+parseInt(k[1]);
+					e = document.getElementById('mainBoard').getElementsByClassName('chess-box')[n]
+					moveKnight(e, k);
+					childPath.push(k)
+				}
+			}
+			else{
+				if (possibleMoves.length){
+					hasMoved = false;
+					for (var i = 0; i < parentPath.length; i++) {
+						if(possibleMoves.includes(parentPath[i])){
+							k = parentPath[i];
+							n = parseInt(k[0])*8+parseInt(k[1]);
+							e = document.getElementById('mainBoard').getElementsByClassName('chess-box')[n]
+							moveKnight(e, k);
+							childPath.push(k)
+							hasMoved = true;
+							break;
+						}
+					}
+					if(!hasMoved){
+						k = possibleMoves[(Math.floor(Math.random() * (possibleMoves.length - 1 - 0 + 1)) + 0)];
+						n = parseInt(k[0])*8+parseInt(k[1]);
+						e = document.getElementById('mainBoard').getElementsByClassName('chess-box')[n]
+						moveKnight(e, k);
+						childPath.push(k)
+					}
+				}
+			}
+		}
+		resetBoard();
+		drawSoln(parentPath);
+		return childPath;
+	}
+	function drawPath(childPath, i){
+		var chessBoxes = document.getElementById("chessBox"+i.toString()).getElementsByClassName("chess-box");
+		resetChildBoards(i);
+		for (var j = 0; j < childPath.length; j++) {
+			k=childPath[j].toString();
+			n=parseInt(k[0])*8+parseInt(k[1]);
+			$(chessBoxes[n]).html('<span style="color:#000;"><i class="fa fa-paw mdl-badge mdl-badge--overlap" data-badge="'+(j+1).toString()+'" aria-hidden="true"></i></span>');
+		}
+		document.getElementById("conquered"+i.toString()).innerHTML=childPath.length.toString();
+	}
+	function drawSoln(childPath){
+		var chessBoxes = document.getElementById("mainBoard").getElementsByClassName("chess-box");
+		resetBoard();
+		for (var j = 0; j < childPath.length; j++) {
+			k=childPath[j].toString();
+			n=parseInt(k[0])*8+parseInt(k[1]);
+			$(chessBoxes[n]).html('<span style="color:#000;"><i class="fa fa-paw mdl-badge mdl-badge--overlap" data-badge="'+(j+1).toString()+'" aria-hidden="true"></i></span>');
+		}
+		document.getElementById("knightsPath").value = ','+childPath.join(',');
+		document.getElementById("conquered").innerHTML = childPath.length;
+	}
+	function drawNextGeneration() {
+		if(!document.getElementById("knightsPath").value){
+			document.getElementById("knightsPath").value = ",11,03,22,30";
+		}
+		window.cchildPaths = [breedNewSolution(), breedNewSolution(), breedNewSolution(), breedNewSolution()];
+		for (var i = 0; i < cchildPaths.length; i++) {
+			drawPath(cchildPaths[i], i);
+		}
+		//if(window.started==0){
+		//	startAuto();			
+		//}
+	}
+	function useSoln(n){
+		$("#mainBoard").scrollTop();
+		if(typeof(window.cchildPaths)!=="undefined"){
+			drawSoln(cchildPaths[n]);
+		}
+	}
+
+	function startAuto() {
+		window.autoTimer = setInterval(function() {
+			drawNextGeneration();
+			big = 0;
+			bigIndex = 0;
+			for (var i = 0; i < window.cchildPaths.length; i++) {
+				if(window.cchildPaths[i].length>big){
+					big = window.cchildPaths[i].length;
+					bigIndex = i;
+				}
+			}
+			useSoln(bigIndex);
+			toggleDarwinBgColor();
+		}, 1500)
+	}
+
+	function toggleDarwinBgColor() {
+		document.getElementsByTagName("img")[0].style = "background:url('nothing.gif')"+";border-radius: 50%;padding: 10px;box-shadow: 2px 2px 10px 2px #000;margin-right:7px;";
+		if(window.darwinBgColor=="0F8B8D"){
+			window.darwinBgColor = "153243";
+		}
+		else{
+			window.darwinBgColor = "0F8B8D";
+		}
+	}
+
+	function toggleAutomaticRun() {
+		if (window.started) {
+			try{
+				window.started = 0;
+				document.getElementsByTagName("img")[0].style = "";
+				clearInterval(window.autoTimer);
+				resetBoard();
+				resetChildBoards(0);resetChildBoards(1);resetChildBoards(2);resetChildBoards(3);
+			}
+			catch(e){
+				console.log(e);
+			}
+		}
+		else{
+			window.started = 1;
+			document.getElementsByTagName("img")[0].style = "background:url('nothing.gif')"+";border-radius: 50%;padding: 10px;box-shadow: 2px 2px 10px 2px #000;margin-right:7px;";
+			startAuto();
+		}
+	}
+	introJs().start();
+</script>
+</html>
