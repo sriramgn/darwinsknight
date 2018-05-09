@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta property="og:title" content="Darwin's Knight">
-	<meta property="og:image" itemprop="image" content="http://www.darwinsknight.com/metaimg.PNG">
+	<meta property="og:image" content="http://www.darwinsknight.com/metaimg.PNG">
 	<meta property="og:description" content="Darwinian approach to solve knight's tour problem.">
 	<meta property="og:url" content="http://www.darwinsknight.com">
 	<title>Darwin's Knight</title>
@@ -173,7 +173,7 @@
 	<div class="container">
 		<div class="row" style="margin-top:3px;">
 			<div class="col-sm">
-				<h1 data-step="1" data-intro="Hi, I'm Darwin's Knight" class="display-4" style="text-align: center;"><span style="color:#bd4147;text-decoration: underline;"><img id="darwinImg" data-step="6" data-intro="Or sit back, relax and watch me perform all these steps for you just by clicking me!<br><br>PS: You can use this as a toggle" onclick="toggleAutomaticRun();" src="darwin.png" width="96" height="106" >Darwin's</span> <span style="text-decoration: underline;">Knight</span></h1>
+				<h1 data-step="1" data-intro="Hi, I'm Darwin's Knight" class="display-4" style="text-align: center;"><span style="color:#bd4147;text-decoration: underline;"><img id="darwinImg" alt="Darwin's image" data-step="6" data-intro="Or sit back, relax and watch me perform all these steps for you just by clicking me!<br><br>PS: You can use this as a toggle" onclick="toggleAutomaticRun();" src="darwin.png" width="96" height="106" >Darwin's</span> <span style="text-decoration: underline;">Knight</span></h1>
 			</div>
 		</div>
 		<div id="mainBoard" data-step="9" data-intro="Alright! let's get started">
@@ -430,8 +430,6 @@
 			</div>
 		</div>
 	</div>
-	
-</body>
 <script>
 	window.started = 0;
 	window.autoTimer = null;
@@ -700,5 +698,6 @@
 		}
 	}
 	introJs().start();
-</script>
+</script>	
+</body>
 </html>
