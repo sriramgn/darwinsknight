@@ -663,8 +663,10 @@
 					bigIndex = i;
 				}
 			}
-			useSoln(bigIndex);
-			toggleDarwinBgColor();
+			if (big >= parseInt(document.getElementById("conquered").value)){
+				useSoln(bigIndex);
+				toggleDarwinBgColor();
+			}
 		}, 1500)
 	}
 
